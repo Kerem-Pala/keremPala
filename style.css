@@ -1,0 +1,101 @@
+body {
+    background-color: #051105;
+    color: #2aff43;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 20px;
+    height: 100vh;
+    font-size: 18px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-weight: bold;
+    
+    border: solid;
+    
+   border-radius: 1%;
+
+
+
+}
+
+a{
+  color: #2aff43;
+}
+#fixed-banner {
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(42, 255, 67, 0.4); 
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    white-space: pre; 
+    font-weight: bold;
+}
+.terminal, h1, p a{
+  text-shadow: 0 0 4px rgba(20, 253, 47, 0.6), 
+              0 0 10px rgba(20, 253, 47, 0.4);
+}
+.vs-effect{
+
+    position:fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+      rgba(0, 0, 0, 0.25) 50%
+    ),
+    radial-gradient(
+        circle,
+        rgba(0, 0, 0, 0) 60%, 
+        rgba(0, 0, 0, 0.7) 100%
+
+    );
+
+    background-size: 100% 4px, 100% 100%;
+    z-index: 9999;
+    pointer-events: none;
+
+    animation: static-effect 0.05s steps(4, start) infinite;
+}
+
+.blink {
+  animation: blink-animation 1s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@keyframes static-effect{
+    to{
+        opacity: 50%;
+    }
+}
+.real-input{
+  position: absolute;
+  opacity: 0; 
+  pointer-events: none;
+}
+
+.terminal{
+  flex-grow: 1;
+    overflow-y: auto; 
+    height: auto; 
+    padding-bottom: 50px;
+    
+}
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+.banner {
+    white-space: pre; 
+    font-weight: bold;
+    color: #2aff43; 
+    margin-bottom: 20px;
+}

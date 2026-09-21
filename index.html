@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portflio</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="vs-effect"></div>
+    <pre id="fixed-banner" class="banner" style="display: none;"></pre>
+    <div class="terminal">
+      
+
+
+
+
+
+      <div class="input-line" onload="terminalFocus()">
+      <span class="prompt">user@web-terminal:~$</span>
+      <span id="terminal-text"></span>
+      <span id="fake-cursor"></span>
+        <input
+          type="text"
+          name="terminalText"
+          class="real-input"
+          id="terminalInput"
+          autofocus
+          
+        />
+        <span class="blink">▮</span>
+        <p class="matches"></p>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
