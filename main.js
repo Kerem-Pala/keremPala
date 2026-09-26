@@ -1,58 +1,20 @@
+import {commands, asciiBanner, bootLogs} from './commands.js';
+
 const terminal = document.querySelector(".terminal");
 const inputLine = document.querySelector(".input-line");
 const terminalInput = document.getElementById("terminalInput");
 const terminalText = document.getElementById("terminal-text");
 const matchesText = document.querySelector('.matches');
-
+let isBooting = false;
 
 const cmdhistory = [];
-const commandList = ["help", "links", "clear", "whoami","projects","skills","sudo"];
+const commandList = ["help", "links", "clear", "whoami","projects","skills", "experience"];
 
-const bootLogs = [
-    "[  0.000000] Booting KeremOS_kernel (Rust/x86_64) - Initializing core architecture...",
-    "[  0.081234] [ OK ] Memory structures and virtual file systems verified.",
-    "[  0.123045] [ INFO ] Secure uplink established to Node::Ibaraki_Osaka...",
-    "[  0.201456] [ OK ] System initialization complete. Handing over control."
-];
 
-const asciiBanner = String.raw`
- ██╗  ██╗███████╗██████╗ ███████╗███╗   ███╗
- ██║ ██╔╝██╔════╝██╔══██╗██╔════╝████╗ ████║
- █████╔╝ █████╗  ██████╔╝█████╗  ██╔████╔██║
- ██╔═██╗ ██╔══╝  ██╔══██╗██╔══╝  ██║╚██╔╝██║
- ██║  ██╗███████╗██║  ██║███████╗██║ ╚═╝ ██║
- ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝
-      ██████╗  █████╗ ██╗      █████╗       
-      ██╔══██╗██╔══██╗██║     ██╔══██╗      
-      ██████╔╝███████║██║     ███████║      
-      ██╔═══╝ ██╔══██║██║     ██╔══██║      
-      ██║     ██║  ██║███████╗██║  ██║      
-      ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝      
-         [ SYSTEM v1.0.0 - RUST / x86_64 ]
-         [Type help to show available commands];
-`;
 
-const commands = {
-    help:(args) => {
-        return `Available commands:${commandList.join(' ')}`;
-    },
-    whoami: (args) => {
-        return "asd";
-    },
-    links : (args) => {
-        return "<a href='https://www.google.com' target='_blank'>google</a>";
-    },
-    clear : (args) => {
-        const elements = document.querySelectorAll('.line');
-        elements.forEach(element => {
-            element.remove();
-        });
-        return "";
-    }
-}
 
 document.addEventListener('DOMContentLoaded', () => {
-   // systemBoot();
+   systemBoot();
 });
 
 
@@ -64,7 +26,7 @@ function terminalFocus(){
     terminalInput.focus();
 }
 terminal.addEventListener('click', (e) => {
-   // if(isBooting) return;
+    if(isBooting) return;
 
     if (window.getSelection().toString() === ""){
         terminalFocus();
@@ -76,7 +38,7 @@ let historyPointer = 0;
 let currentInput = "";
 terminalInput.addEventListener('keydown', (e) => {
     
-   // if(isBooting) return;
+   if(isBooting) return;
 
     if(e.key === "Enter"){
         const command = terminalInput.value.trim();
@@ -173,15 +135,22 @@ function processCommand(cmd){
     const [command, ...args] = cmd.trim().toLowerCase().split(' ');
 
     createLine(`user@web-terminal:~$ ${cmd}`, 'user-cmd');
-
-    if(commands[command]){
-        const response = commands[command](args);
+    
+if(commands[command]){
+        const response = commands[command](args);           
         if(response){
             createLine(response, 'response-line');
         }
     }else{
         createLine(`bash: ${command}: command not found`, 'response-line');
     }
+   
+    
+    
+    
+        
+       
+   
     terminal.scrollTop = terminal.scrollHeight;
 
     cmdhistory.push(cmd);
@@ -204,7 +173,7 @@ async function systemBoot(){
     inputLine.style.opacity = 0;
     for(let i = 0; i < bootLogs.length; i++){
 
-        await(randomCharDecode(bootLogs[i], 'logs'));
+        await(charDecodeAnim(bootLogs[i], 'logs'));
 
         const randomTime = Math.floor(Math.random() * 100) + 20;
         await sleep(randomTime);
@@ -232,23 +201,36 @@ async function systemBoot(){
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
 const getRandomChar = () => chars[Math.floor(Math.random() * chars.length)];
 
-async function randomCharDecode(text, className){
+async function charDecodeAnim(text, className){
     const line = document.createElement('div');
     line.classList.add('line', className);
     terminal.insertBefore(line, inputLine);
 
     let currentText = "";
 
-    for(let i = 0; i < text.length; i++){
-        let scrambleFrames = 3;
+    for(let i = 0; i < text.length; i+=4){
+
+        let chunkSize = Math.min(4, text.length - i);
+        let actualChunk = text.substring(i, i + chunkSize);
+
+
+
+        let scrambleFrames = 2;
         for(let j =0; j < scrambleFrames; j++){
-            line.textContent = currentText + getRandomChar();
-            await(sleep(1));
+            
+            let randomChunk = "";
+            for(let k = 0; k < chunkSize; k++){
+                randomChunk += getRandomChar();
+            }
+            line.textContent = currentText + randomChunk;
+            await(sleep(15));
+
         }
 
-        currentText += text[i];
+        currentText += actualChunk;
         line.textContent = currentText;
-
+        
+        await(sleep(10));
 
 
 

@@ -4,7 +4,7 @@ body {
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
     padding: 20px;
-    height: 100vh;
+    height: 100dvh;
     font-size: 18px;
     box-sizing: border-box;
     display: flex;
@@ -78,15 +78,21 @@ a{
 }
 .real-input{
   position: absolute;
-  opacity: 0; 
-  pointer-events: none;
+    top: 0;
+    left: 0;
+    opacity: 0; 
+    pointer-events: none;
 }
-
+.input-line{
+  position: relative;
+    display: flex;
+}
 .terminal{
   flex-grow: 1;
     overflow-y: auto; 
     height: auto; 
     padding-bottom: 50px;
+    min-height: 0;
     
 }
 .fade-out {
@@ -98,4 +104,18 @@ a{
     font-weight: bold;
     color: #2aff43; 
     margin-bottom: 20px;
+}
+@keyframes matrixHeartFall {
+    0% { transform: translateY(-10vh); opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+}
+
+.matrix-heart {
+    position: fixed; /* Bütün sayfanın üzerinde uçuşması için */
+    color: #2aff43; /* CRT Yeşili */
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    pointer-events: none; /* Mouse ile tıklanmasını engeller */
+    z-index: 9999; /* Her şeyin üstünde görünür */
+    user-select: none;
 }
